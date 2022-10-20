@@ -165,13 +165,13 @@ public final class QuickSort extends SortAlgo
             {
                 if (i == hi) break;
             }
-            if(printTrace)System.out.println("\t\t[Loop "+ loopCount+"] item less than "+getItemStr(a, lo)+" at i ="+ getItemStr(a, i));
+            if(printTrace)System.out.println("\t\t[Loop "+ loopCount+"] item greater/equal to "+getItemStr(a, lo)+" at i ="+ getItemStr(a, i));
             // find item on hi to swap
             while (SortAlgo.less(v, a[--j])) 
             {
                 if (j == lo) break;      // redundant since a[lo] acts as sentinel
             }
-            if(printTrace)System.out.println("\t\t[Loop "+ loopCount+"] item greater/equal to "+getItemStr(a, lo)+" at j ="+ getItemStr(a, j));
+            if(printTrace)System.out.println("\t\t[Loop "+ loopCount+"] item less than "+getItemStr(a, lo)+" at j ="+ getItemStr(a, j));
             
             // check if pointers cross
             if (i >= j)

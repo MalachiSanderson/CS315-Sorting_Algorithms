@@ -19,7 +19,7 @@ public class TestClient extends TestHelper
     public static void main(String[] args) 
     {
         //sortTester(algorithmTypEnum.QuickSort,true);
-        //sortTester(algorithmTypEnum.QuickSort,true, new Integer[] {3, 12, 44, 99, 72, 33, 11, 18, 65, 42});
+        //sortTester(algorithmTypEnum.QuickSort,false, new Integer[] {11, 38, 42, 8, 6, 5});
         if(args.length>0) commandLineInputHandler(args);
         else commandLineInterface();
         System.out.println("\n\n--------------------------------------------------------------");
