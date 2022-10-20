@@ -1,6 +1,10 @@
 package SortingAlgos;
-
-public final class SelectionSort extends SortAlgorithm
+/**[TODO] explain what it does and have list with links to all methods and for each method put author.
+ * @author Malachi Sanderson.
+ * @since 10-19-22
+ * 
+*/
+public final class SelectionSort extends SortAlgo
 {
     /** 
      * <p>
@@ -20,6 +24,7 @@ public final class SelectionSort extends SortAlgorithm
      * Basically, start at index 0, find minimum and swap with index 0 with minimum. 
      * Then go to index 1, find next minimum to the right of index 0 and swap with index 1...etc.
      * @param a array of comparable items you desire to sort.
+     * @author https://github.com/kevin-wayne/algs4/blob/master/src/main/java/edu/princeton/cs/algs4/Selection.java
      */
     public static void sort(Comparable[] a)
     {
@@ -30,14 +35,15 @@ public final class SelectionSort extends SortAlgorithm
             ///exchange a[i] with smallest entry in a[i+1...N]
             int min = i;
             for(int j = i+1; j < N; j++)
-                if(Sort_Interface.less(a,j,min)) min = j;
-            Sort_Interface.swap(a, i, min);
+                if(SortAlgo.less(a,j,min)) min = j;
+            SortAlgo.swap(a, i, min);
         }
     }
      /**
      * {@link #sort(Comparable[])} but with in-depth printing for tracing process.
      * @param a
      * @param printTrace
+     * @author Malachi Sanderson
      */
     public static void sort(Comparable[] a, boolean printTrace)
     {
@@ -49,13 +55,13 @@ public final class SelectionSort extends SortAlgorithm
             int min = i;
             int oldMin = min;
             System.out.println("I = " + i + ".....(Start of Loop Min: ["+oldMin+"]="+a[oldMin]+")..........");
-            if (printTrace) System.out.println("\t\t\t["+Sort_Interface.getArrayString(a)+"]");
+            if (printTrace) System.out.println("\t\t\t["+SortAlgo.getArrayString(a)+"]");
             ///exchange a[i] with smallest entry in a[i+1...N]
             int j = i+1;
             if(printTrace && (j<N)) System.out.println("\t\t\tJ START VALUE J = [" + j + "] =" + a[j]);
             for(j = i+1; j < N; j++)
             {
-                if(Sort_Interface.less(a,j,min)) 
+                if(SortAlgo.less(a,j,min)) 
                 {
                     System.out.println("\t\tJ = [" + j +"] ="+ a[j]+ " ...SET TO NEW MIN (less than prev min: (["+min+"]="+a[min]+")");
                     min = j;
@@ -63,8 +69,8 @@ public final class SelectionSort extends SortAlgorithm
                 else System.out.println("\t\tJ = [" + j +"] ="+ a[j]+ " ...ignored. ");
             }
             if(oldMin != min) System.out.println("\t[SWAPPED [" + i +"] = "+ a[i]+ " with [" + min +"] = "+ a[min] + " ]...");
-            Sort_Interface.swap(a, i, min);
-            if(printTrace) System.out.println("\t\t\t["+Sort_Interface.getArrayString(a)+"]");
+            SortAlgo.swap(a, i, min);
+            if(printTrace) System.out.println("\t\t\t["+SortAlgo.getArrayString(a)+"]");
             if(printTrace) System.out.println("\t\t\tJ FINAL VALUE J = [" + j + "] " );
         }
         if(printTrace) System.out.println("Final I = " + i + "...............");

@@ -2,13 +2,22 @@ package SortingAlgos;
 
 import java.util.Arrays;
 
-public final class MergeSort extends SortAlgorithm
+/**
+ * [TODO] explain what it does and have list with links to all methods and for each method put author.
+ * @author Malachi Sanderson.
+ * @since 10-19-22
+*/
+public final class MergeSort extends SortAlgo
 {
+    //these variables are used only for printing and have no impact on the algorithm...
+    //#region PRINT VARIABLES
     private static int splitCalls = 0;
     private static int failedSplitCalls = 0;
     private static int mergeCalls = 0;
-    /** "Rearranges the array in ascending order, using the natural order.""
-    * 
+    //#endregion
+
+    /** 
+    * <i>"Rearranges the array in ascending order, using the natural order."</i>
     * <p>
     * Basic structure is split into two main functions:
     * <p>
@@ -31,6 +40,7 @@ public final class MergeSort extends SortAlgorithm
     * {@link #sort(Comparable[])} but with in-depth printing for tracing process.
     * @param a
     * @param printTrace
+    * @author Malachi Sanderson
     */
     public static void sort(Comparable[] a, boolean printTrace)
     {
@@ -47,9 +57,8 @@ public final class MergeSort extends SortAlgorithm
     }
 
 
-
-    // mergesort a[lo..hi] using auxiliary array aux[lo..hi]
     /**
+    * <i>"mergesort a[lo..hi] using auxiliary array aux[lo..hi]"</i>
     * <p>
     * Recursively split a passed array until it cannot be split anymore, 
     * then, using {@link #merge(Comparable[], Comparable[], int, int, int) merge()},
@@ -59,6 +68,7 @@ public final class MergeSort extends SortAlgorithm
     * @param aux
     * @param lo
     * @param hi
+    * @author https://github.com/kevin-wayne/algs4/blob/master/src/main/java/edu/princeton/cs/algs4/Merge.java
     */
     private static void splitArray(Comparable[] a, Comparable[] aux, int lo, int hi) 
     {
@@ -78,11 +88,10 @@ public final class MergeSort extends SortAlgorithm
      * @param lo
      * @param hi
      * @param iterations
+     * @author Malachi Sanderson
      */
     private static boolean splitArray(Comparable[] a, Comparable[] aux, int lo, int hi, boolean printTrace) 
     {
-        
-        //System.out.println("\t\t-- [START] Split - Iter "+iteration+ getMergeSortPrintString(false, a, aux, lo, -1, hi, iteration));
         splitCalls++;
         if (hi <= lo) 
         {
@@ -99,29 +108,31 @@ public final class MergeSort extends SortAlgorithm
         splitPass = splitArray(a, aux, lo, mid, printTrace); 
         if(splitPass) passedString = "PASSED";
         else passedString = "FAILED";
-        if(printTrace)System.out.println("\t\t\t"+splitCalls+"-th Split "+passedString+"- Part A.{"+Sort_Interface.getArrayString(Arrays.copyOfRange(a,lo,mid+1)) + "}\n");
+        if(printTrace)System.out.println("\t\t\t"+splitCalls+"-th Split "+passedString+"- Part A.{"+SortAlgo.getArrayString(Arrays.copyOfRange(a,lo,mid+1)) + "}\n");
         
 
         splitPass = false;
         splitPass = splitArray(a, aux, mid + 1, hi, printTrace);
         if(splitPass) passedString = "PASSED";
         else passedString = "FAILED";
-        if(printTrace)System.out.println("\t\t\t"+splitCalls+"-th Split "+passedString+"- Part B.{"+Sort_Interface.getArrayString(Arrays.copyOfRange(a,mid+1,hi+1)) + "}\n");
+        if(printTrace)System.out.println("\t\t\t"+splitCalls+"-th Split "+passedString+"- Part B.{"+SortAlgo.getArrayString(Arrays.copyOfRange(a,mid+1,hi+1)) + "}\n");
 
         mergeCalls++;
-        if(printTrace)System.out.println("\t*Current Array: {"+Sort_Interface.getArrayString(a)+"}*");
+        if(printTrace)System.out.println("\t*Current Array: {"+SortAlgo.getArrayString(a)+"}*");
         System.out.println("   --Split for merge #"+mergeCalls+" "+
         getMergeSortPrintString(true, a, aux, lo, mid, hi, printTrace));
         
         merge(a, aux, lo, mid, hi, printTrace);
-        System.out.println("\t*Current Array: ["+Sort_Interface.getArrayString(a)+"]*\n");
+        System.out.println("\t*Current Array: ["+SortAlgo.getArrayString(a)+"]*\n");
         return true;
     }
 
 
 
-    // stably merge a[lo .. mid] with a[mid+1 ..hi] using aux[lo .. hi]
-    /** merge is basically the actual sorting element of the {@link MergeSort}
+    /** 
+     * <i>"stably merge a[lo .. mid] with a[mid+1 ..hi] using aux[lo .. hi]"</i>
+     * <p>
+     * Merge is basically the actual sorting component of the {@link MergeSort}.
      * <p>
      * Copy array. Array is split into two partitions, <b>A</b> and <b>B</b>, with first 
      * item in partition B being at index mid + 1. 
@@ -145,12 +156,13 @@ public final class MergeSort extends SortAlgorithm
      * @param lo
      * @param mid
      * @param hi
+     * @author https://github.com/kevin-wayne/algs4/blob/master/src/main/java/edu/princeton/cs/algs4/Merge.java
     */
     private static void merge(Comparable[] a, Comparable[] aux, int lo, int mid, int hi) 
     {
         // precondition: a[lo .. mid] and a[mid+1 .. hi] are sorted subarrays
-        assert Sort_Interface.isSorted(Arrays.copyOfRange(a,lo,mid));
-        assert Sort_Interface.isSorted(Arrays.copyOfRange(a, mid+1, hi));
+        assert SortAlgo.isSorted(Arrays.copyOfRange(a,lo,mid));
+        assert SortAlgo.isSorted(Arrays.copyOfRange(a, mid+1, hi));
 
         // copy to aux[]
         for (int k = lo; k <= hi; k++) 
@@ -164,12 +176,12 @@ public final class MergeSort extends SortAlgorithm
         {
             if      (i > mid)              a[k] = aux[j++];             //if reached end of partition A: add B to tail.
             else if (j > hi)               a[k] = aux[i++];             //else if reached end of partition B: add A to tail.
-            else if (Sort_Interface.less(aux,j, i)) a[k] = aux[j++];    //else if element in partition B less one in A: add B to tail.
+            else if (SortAlgo.less(aux,j, i)) a[k] = aux[j++];    //else if element in partition B less one in A: add B to tail.
             else                           a[k] = aux[i++];             //else: (should mean element in A is less than B) add A to tail.
         }
 
         // postcondition: a[lo .. hi] is sorted
-        assert Sort_Interface.isSorted(Arrays.copyOfRange(a,lo,hi));
+        assert SortAlgo.isSorted(Arrays.copyOfRange(a,lo,hi));
     }
     /**
      * Same method as {@link #merge(Comparable[], Comparable[], int, int, int)} 
@@ -180,12 +192,13 @@ public final class MergeSort extends SortAlgorithm
      * @param mid
      * @param hi
      * @param iterations
+     * @author Malachi Sanderson
      */
     private static void merge(Comparable[] a, Comparable[] aux, int lo, int mid, int hi, boolean printTrace) 
     {
         // precondition: a[lo .. mid] and a[mid+1 .. hi] are sorted subarrays
-        assert Sort_Interface.isSorted(Arrays.copyOfRange(a,lo,mid));
-        assert Sort_Interface.isSorted(Arrays.copyOfRange(a, mid+1, hi));
+        assert SortAlgo.isSorted(Arrays.copyOfRange(a,lo,mid));
+        assert SortAlgo.isSorted(Arrays.copyOfRange(a, mid+1, hi));
 
         //System.out.println("\t\t++ [Start] Merge - Iter " +iteration+" \n\t\t"+ getMergeSortPrintString(true, a, aux, lo, mid, hi, iteration));
         
@@ -201,38 +214,46 @@ public final class MergeSort extends SortAlgorithm
         {
             if      (i > mid)              a[k] = aux[j++];             //if reached end of partition A: add B to tail.
             else if (j > hi)               a[k] = aux[i++];             //else if reached end of partition B: add A to tail.
-            else if (Sort_Interface.less(aux,j, i)) a[k] = aux[j++];    //else if element in partition B less one in A: add B to tail.
+            else if (SortAlgo.less(aux,j, i)) a[k] = aux[j++];    //else if element in partition B less one in A: add B to tail.
             else                           a[k] = aux[i++];             //else: (should mean element in A is less than B) add A to tail.
         }
 
         String str = "   ++Merge #"+mergeCalls+" ||  "+ getMergeSortPrintString(true, a, aux, lo, mid, hi, printTrace); 
-        if(printTrace) str+=" = {"+Sort_Interface.getArrayString(Arrays.copyOfRange(a,lo,hi+1)) + "}";
+        if(printTrace) str+=" = {"+SortAlgo.getArrayString(Arrays.copyOfRange(a,lo,hi+1)) + "}";
         
         System.out.println(str);    
         // postcondition: a[lo .. hi] is sorted
-        assert Sort_Interface.isSorted(Arrays.copyOfRange(a,lo,hi));
+        assert SortAlgo.isSorted(Arrays.copyOfRange(a,lo,hi));
     }
 
-
+    /**
+     * Just a helper function to help make my prints a little smaller.
+     * @param partitionPrint
+     * @param a
+     * @param aux
+     * @param lo
+     * @param mid
+     * @param hi
+     * @param printTrace
+     * @return 
+     * @author Malachi Sanderson
+     */
     private static String getMergeSortPrintString(boolean partitionPrint,Comparable[] a, Comparable[] aux, int lo, int mid, int hi, boolean printTrace)
     {
         if(partitionPrint)
         {
             String str = "A["+lo+"->"+mid +"]:{"; 
-            if(lo != mid) str += Sort_Interface.getArrayString(Arrays.copyOfRange(a,lo,mid+1))+"}"; //idk why, but had to do mid+1 for it to print correctly... 
+            if(lo != mid) str += SortAlgo.getArrayString(Arrays.copyOfRange(a,lo,mid+1))+"}"; //idk why, but had to do mid+1 for it to print correctly... 
             else str += a[mid].toString() + " ]";
 
             str+="   B["+(mid+1)+"->"+hi +"]:{" ;
 
             if((mid+1) == hi) str += a[hi].toString() + " }";
-            else str += Sort_Interface.getArrayString(Arrays.copyOfRange(a,mid+1,hi+1))+"}";
+            else str += SortAlgo.getArrayString(Arrays.copyOfRange(a,mid+1,hi+1))+"}";
 
            return str;
         }
         else
-        return ("a["+lo+"->"+hi +"] :{" + Sort_Interface.getArrayString(Arrays.copyOfRange(a,lo,hi+1))+"}");
+        return ("a["+lo+"->"+hi +"] :{" + SortAlgo.getArrayString(Arrays.copyOfRange(a,lo,hi+1))+"}");
     }
-    
-
-    //System.out.println("Arr Passed To Split Arr: " + Arrays.copyOfRange(a,lo,hi));
 }

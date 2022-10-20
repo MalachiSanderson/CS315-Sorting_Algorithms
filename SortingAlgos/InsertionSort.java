@@ -1,6 +1,10 @@
 package SortingAlgos;
-
-public class InsertionSort extends SortAlgorithm 
+/**[TODO] explain what it does and have list with links to all methods and for each method put author.
+ * @author Malachi Sanderson.
+ * @since 10-19-22
+ * 
+*/
+public class InsertionSort extends SortAlgo 
 {
     /**
      * <p>
@@ -13,6 +17,7 @@ public class InsertionSort extends SortAlgorithm
      * It swaps every step of inner loop.
      * 
      * @param a array of comparable items you desire to sort.
+     * @author https://github.com/kevin-wayne/algs4/blob/master/src/main/java/edu/princeton/cs/algs4/Insertion.java
      */
     public static void sort(Comparable[] a) 
     {
@@ -21,8 +26,8 @@ public class InsertionSort extends SortAlgorithm
         for (int i = 1; i < N; i++) 
         {
             // insert a[i] among a[i-1], a[i-2], a[i-3].....
-            for (int j = i; j > 0 && Sort_Interface.less(a, j, j - 1); j--)
-                Sort_Interface.swap(a, j, j - 1);
+            for (int j = i; j > 0 && SortAlgo.less(a, j, j - 1); j--)
+                SortAlgo.swap(a, j, j - 1);
 
         }
     }
@@ -39,18 +44,18 @@ public class InsertionSort extends SortAlgorithm
         for (i = 1; i < N; i++) 
         {
             System.out.println("I = " + i + "...............");
-            if (printTrace) System.out.println("\t\t\t{"+Sort_Interface.getArrayString(a)+"}");
+            if (printTrace) System.out.println("\t\t\t{"+SortAlgo.getArrayString(a)+"}");
             // insert a[i] among a[i-1], a[i-2], a[i-3].....
             int j = i;
-            if(printTrace) System.out.println("\t\t\tJ START VALUE J = " + Sort_Interface.getItemStr(a, j));
-            for (j = i; j > 0 && Sort_Interface.less(a, j, j - 1); j--) 
+            if(printTrace) System.out.println("\t\t\tJ START VALUE J = " + SortAlgo.getItemStr(a, j));
+            for (j = i; j > 0 && SortAlgo.less(a, j, j - 1); j--) 
             {
-                System.out.println("\t\tJ = " + Sort_Interface.getItemStr(a, j)+ " ... SWAPPED WITH "+ Sort_Interface.getItemStr(a, j-1)+ "");
-                Sort_Interface.swap(a, j, j - 1);
-                if (printTrace) System.out.println("\t\t\t["+Sort_Interface.getArrayString(a)+"]");
+                System.out.println("\t\tJ = " + SortAlgo.getItemStr(a, j)+ " ... SWAPPED WITH "+ SortAlgo.getItemStr(a, j-1)+ "");
+                SortAlgo.swap(a, j, j - 1);
+                if (printTrace) System.out.println("\t\t\t["+SortAlgo.getArrayString(a)+"]");
             }
             //Reached point where J <= 0 or J greater than all elements to its left.
-            if(printTrace) System.out.println("\t\t\tJ FINAL VALUE J = " + Sort_Interface.getItemStr(a, j));
+            if(printTrace) System.out.println("\t\t\tJ FINAL VALUE J = " + SortAlgo.getItemStr(a, j));
         }
         if(printTrace) System.out.println("Final I = " + i + "...............");
     }
