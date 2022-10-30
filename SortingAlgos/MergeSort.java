@@ -59,9 +59,9 @@ public final class MergeSort extends SortAlgo
         mergeCalls = 0;
     }
     /**
-     * {@link #sort(Comparable[])} but prints timing.
+     * {@link #sort(Comparable[])} but returns a string showing the sort timing so you can print it.
      * @param a
-     * @param digits
+     * @param digits [TODO] this needs to be changed, currently does nothing but does help compiler recognize what sort() you're calling.
      * @return string of the time taken
      * @author Malachi Sanderson
      * @since 10-29-22
@@ -75,13 +75,8 @@ public final class MergeSort extends SortAlgo
         splitArray(a, aux, 0, a.length-1);
 
         Instant ends = Instant.now();
-        long milis = Duration.between(starts, ends).toMillis() % 1000;
-        long seconds = Duration.between(starts, ends).minus(milis, ChronoUnit.MILLIS).getSeconds();
-        long nanos = Duration.between(starts, ends).minus(seconds, ChronoUnit.SECONDS).minus(milis, ChronoUnit.MILLIS).getNano();
-
-        //System.out.println("\tTotal SORTING TIME: "+Duration.between(starts, ends) +"\n\tSeconds: "+ seconds+ "\n\tMiliSecs: "+ milis+"\n\tNanosecs: "+nanos );
-        //Duration.between(starts, ends).toNanos()
-        return "Total SORTING TIME: "+Duration.between(starts, ends) +"    Seconds: "+ seconds+ "    MiliSecs: "+ milis+"    Nanosecs: "+nanos;
+        
+        return getExecutionTimeString(starts, ends);
     }
 
 

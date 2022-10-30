@@ -3,6 +3,7 @@ package SortingAlgos;
 import java.util.Arrays;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 /**[TODO] explain what it does and have list with links to all methods and for each method put author.
  * Has most of the shared helper functions that diff sorting algos will use.
  * <p>
@@ -166,6 +167,23 @@ public abstract class SortAlgo
         return str;
     }
 
+    /**
+     * Utility method for getting a printout of the execution time between two instants (start and end).
+     * @param start 
+     * @param end
+     * @return string of the time passed showing total time, seconds, miliseconds, and nanoseconds
+     * @author Malachi Sanderson
+     * @since 10-30-22
+     */
+    public static String getExecutionTimeString(Instant start, Instant end)
+    {
+        long milis = Duration.between(start, end).toMillis() % 1000;
+        long seconds = Duration.between(start, end).minus(milis, ChronoUnit.MILLIS).getSeconds();
+        long nanos = Duration.between(start, end).minus(seconds, ChronoUnit.SECONDS).minus(milis, ChronoUnit.MILLIS).getNano();
+
+        String durStr = Duration.between(start, end).toString().replaceAll("[^\\d.]", ""); //removes all non-numeric characters from str.
+        return "\tTIME: "+durStr +"\tS: "+ seconds+ "   Ms: "+ milis+"   Ns: "+nanos;
+    }
 
 
 

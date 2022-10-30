@@ -21,10 +21,7 @@ public class TestClient extends TestHelper
     {
         //sortTester(algorithmTypEnum.SelectionSort, 20, ArraySortTypesEnum.Random, 36000);
         //sortTester(algorithmTypEnum.QuickSort,false, new Integer[] {11, 38, 42, 8, 6, 5});
-        rapidSortTester(algorithmTypEnum.MergeSort, 2);
-
-
-
+        rapidSortTester(algorithmTypEnum.SelectionSort, 30000, 8, 1.1f,2);
 
         if(args.length>0) commandLineInputHandler(args);
         //else commandLineInterface();
@@ -72,7 +69,6 @@ public class TestClient extends TestHelper
     }
 
 
-    //[TODO]
     /**
      * Same as {@link #sortTester(algorithmTypEnum, boolean)} except no advanced prints but instead
      * just calls the timed version of the sort on a array sorted according to preSortType 
@@ -113,17 +109,27 @@ public class TestClient extends TestHelper
         System.out.println("***********ALGORITHM WORKED? "+SortAlgo.isSorted(arr)+"!!!***********\n");
     }
 
-
-    private static void rapidSortTester(algorithmTypEnum algo, int repeatTimes)
+    /**
+     * Utility method just for running through a bunch of tests for a single algorithm
+     * testing different sizes and different pre-sorted array statuses (PSAS see {@link ArraySortTypesEnum}).
+     * <p>
+     * This method was built for my CS315 M2-4 project for data collection.
+     * @param algo algorithm you wish to test. For working algorithms see {@link #chooseAlgoToTest(algorithmTypEnum, Comparable[], int)}
+     * @param arrStartSize starting size for first array you wish to test.
+     * @param numSizesTested how many different sizes do you want to test on each PSAS?
+     * @param sizeMod multiplier applied to the size after each individual size test. <p>Basically, arrStartSize at 100, and size mod 1.1 --> size test 2's array size = 110. 
+     * @param sizeTestRepeats how many times do you wish to repeat the test with each size for each PSAS? <p>Do this so you can see the variation in execution time when test parameters are kept the same (good if you wanna get averages).
+     * @author Malachi Sanderson
+     * @since 10/30/22
+     */
+    private static void rapidSortTester(algorithmTypEnum algo, int arrStartSize, int numSizesTested, float sizeMod, int sizeTestRepeats)
     {
-        System.out.println(" "+algo.name()+" ");
-        int startSize  = 30000;
-        int finalSize = 58460;
-        
-        for(int i = 0; i< 3; i++)
+        //System.out.println(" "+algo.name()+" ");
+        for(int i = 0; i< 3; i++) // this loops through each array Pre-sorting type for the following tests.
         {
-            int currSize = startSize;
-            ArraySortTypesEnum psas = null;
+            int currSize = arrStartSize;
+
+            ArraySortTypesEnum psas = null; //pre-sorted array status -- how is the generated array sorted initially?
             switch(i)
             {
                 case 0 : psas = ArraySortTypesEnum.Random; break;
@@ -131,17 +137,23 @@ public class TestClient extends TestHelper
                 case 2 : psas = ArraySortTypesEnum.Descending; break;
                 default: break;
             }
-            String resultsStr = null;
+
+            //this will be what is printed...this is printed after the algo has finished all tests for the current psas 
+            String resultsStr = "";
             resultsStr += "\n"+algo.name()+" " + psas.name() +": \n";
-            while(currSize <= finalSize)
+
+            //loop through diff size tests with progressively increasing (by sizeIncreasePerTest) size, numSizesTested times.
+            for(int k = 0; k < numSizesTested; k++) 
             {
-                for(int j = 0; j < repeatTimes; j++)
+                resultsStr += "\tSIZE: "+currSize;
+                //Loop through and re-do the same type of test (sizeTestRepeats times) just to see variation in resulting time for each test.
+                for(int j = 0; j < sizeTestRepeats; j++)
                 {
                     Comparable<Integer>[] arr = TestHelper.chooseArrayPresortedBy(psas,currSize);
-                    resultsStr += "\tSIZE: "+currSize +" "+chooseAlgoToTest(algo,arr,0)+"\n";
+                    resultsStr += "\n\t\t"+chooseAlgoToTest(algo,arr,0)+"";
                 }
-                currSize = (int) (currSize *1.1);
-                resultsStr +="\n";
+                currSize = (int) (currSize * sizeMod);
+                resultsStr +="\n\n";
             }
             System.out.println(resultsStr);
         }

@@ -82,9 +82,9 @@ public final class SelectionSort extends SortAlgo
         if(printTrace) System.out.println("Final I = " + i + "...............");
     }
     /**
-     * {@link #sort(Comparable[])} but prints timing.
+     * {@link #sort(Comparable[])} but returns a string showing the sort timing so you can print it.
      * @param a
-     * @param starts input Instant.now() or just input null and it should be fine.
+     * @param digits [TODO] this needs to be changed, currently does nothing but does help compiler recognize what sort() you're calling.
      * @return string of the time taken
      * @author Malachi Sanderson
      * @since 10-29-22
@@ -105,15 +105,10 @@ public final class SelectionSort extends SortAlgo
                 if(SortAlgo.less(a,j,min)) min = j;
             SortAlgo.swap(a, i, min);
         }
+
         Instant ends = Instant.now();
-        long milis = Duration.between(starts, ends).toMillis() % 1000;
-        long seconds = Duration.between(starts, ends).minus(milis, ChronoUnit.MILLIS).getSeconds();
-        long nanos = Duration.between(starts, ends).minus(seconds, ChronoUnit.SECONDS).minus(milis, ChronoUnit.MILLIS).getNano();
-
-        //System.out.println("\tTotal SORTING TIME: "+Duration.between(starts, ends) +"\n\tSeconds: "+ seconds+ "\n\tMiliSecs: "+ milis+"\n\tNanosecs: "+nanos );
-        return "Total SORTING TIME: "+Duration.between(starts, ends) +"    Seconds: "+ seconds+ "    MiliSecs: "+ milis+"    Nanosecs: "+nanos;
-        //Duration.between(starts, ends).toNanos()
-
+        
+        return getExecutionTimeString(starts, ends);
     }
         
 }
