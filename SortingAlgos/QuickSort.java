@@ -76,21 +76,18 @@ public final class QuickSort extends SortAlgo
         int j = partition(a, lo, hi, printTrace);
 
         int ssAHi = (j-1);
-        if(true)
-        {
-            if (ssAHi > lo)
-                System.out.println("\nSubsort A:"+arrRangePrintStr(a, lo, ssAHi));
-            else System.out.println("\nSubsort A: attempted with values -> lo = "+lo+"; hi ="+ssAHi+". ");
-        }
+        
+        if (ssAHi > lo)
+            System.out.println("\nSubsort A:"+arrRangePrintStr(a, lo, ssAHi));
+        else System.out.println("\nSubsort A: attempted with values -> lo = "+lo+"; hi ="+ssAHi+". ");
         subSort(a, lo, j-1, printTrace);
 
         int ssBlo = (j+1);
-        if(true)
-        {
-            if (hi > ssBlo)
-                System.out.println("\nSubsort B:"+arrRangePrintStr(a, ssBlo, hi));
-            else System.out.println("\nSubsort A: attempted with values -> lo = "+ssBlo+"; hi ="+hi+". ");
-        }
+        
+        if (hi > ssBlo)
+            System.out.println("\nSubsort B:"+arrRangePrintStr(a, ssBlo, hi));
+        else System.out.println("\nSubsort A: attempted with values -> lo = "+ssBlo+"; hi ="+hi+". ");
+        
         subSort(a, j+1, hi, printTrace);
         assert SortAlgo.isSorted(Arrays.copyOfRange(a,lo,hi));
     }

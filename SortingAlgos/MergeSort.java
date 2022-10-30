@@ -108,14 +108,14 @@ public final class MergeSort extends SortAlgo
         splitPass = splitArray(a, aux, lo, mid, printTrace); 
         if(splitPass) passedString = "PASSED";
         else passedString = "FAILED";
-        if(printTrace)System.out.println("\t\t\t"+splitCalls+"-th Split "+passedString+"- Part A.{"+SortAlgo.getArrayString(Arrays.copyOfRange(a,lo,mid+1)) + "}\n");
+        if(printTrace)System.out.println("\t\t\t"+splitCalls+"-th Split "+passedString+"- Part A.{"+getArrayString(Arrays.copyOfRange(a,lo,mid+1)) + "}\n");
         
 
         splitPass = false;
         splitPass = splitArray(a, aux, mid + 1, hi, printTrace);
         if(splitPass) passedString = "PASSED";
         else passedString = "FAILED";
-        if(printTrace)System.out.println("\t\t\t"+splitCalls+"-th Split "+passedString+"- Part B.{"+SortAlgo.getArrayString(Arrays.copyOfRange(a,mid+1,hi+1)) + "}\n");
+        if(printTrace)System.out.println("\t\t\t"+splitCalls+"-th Split "+passedString+"- Part B.{"+getArrayString(Arrays.copyOfRange(a,mid+1,hi+1)) + "}\n");
 
         mergeCalls++;
         if(printTrace)System.out.println("\t*Current Array: {"+SortAlgo.getArrayString(a)+"}*");
@@ -123,7 +123,7 @@ public final class MergeSort extends SortAlgo
         getMergeSortPrintString(true, a, aux, lo, mid, hi, printTrace));
         
         merge(a, aux, lo, mid, hi, printTrace);
-        System.out.println("\t*Current Array: ["+SortAlgo.getArrayString(a)+"]*\n");
+        System.out.println("\t*Current Array: ["+getArrayString(a)+"]*\n");
         return true;
     }
 
@@ -161,8 +161,8 @@ public final class MergeSort extends SortAlgo
     private static void merge(Comparable[] a, Comparable[] aux, int lo, int mid, int hi) 
     {
         // precondition: a[lo .. mid] and a[mid+1 .. hi] are sorted subarrays
-        assert SortAlgo.isSorted(Arrays.copyOfRange(a,lo,mid));
-        assert SortAlgo.isSorted(Arrays.copyOfRange(a, mid+1, hi));
+        assert isSorted(Arrays.copyOfRange(a,lo,mid));
+        assert isSorted(Arrays.copyOfRange(a, mid+1, hi));
 
         // copy to aux[]
         for (int k = lo; k <= hi; k++) 
@@ -176,12 +176,12 @@ public final class MergeSort extends SortAlgo
         {
             if      (i > mid)              a[k] = aux[j++];             //if reached end of partition A: add B to tail.
             else if (j > hi)               a[k] = aux[i++];             //else if reached end of partition B: add A to tail.
-            else if (SortAlgo.less(aux,j, i)) a[k] = aux[j++];    //else if element in partition B less one in A: add B to tail.
+            else if (less(aux,j, i)) a[k] = aux[j++];    //else if element in partition B less one in A: add B to tail.
             else                           a[k] = aux[i++];             //else: (should mean element in A is less than B) add A to tail.
         }
 
         // postcondition: a[lo .. hi] is sorted
-        assert SortAlgo.isSorted(Arrays.copyOfRange(a,lo,hi));
+        assert isSorted(Arrays.copyOfRange(a,lo,hi));
     }
     /**
      * Same method as {@link #merge(Comparable[], Comparable[], int, int, int)} 
@@ -197,8 +197,8 @@ public final class MergeSort extends SortAlgo
     private static void merge(Comparable[] a, Comparable[] aux, int lo, int mid, int hi, boolean printTrace) 
     {
         // precondition: a[lo .. mid] and a[mid+1 .. hi] are sorted subarrays
-        assert SortAlgo.isSorted(Arrays.copyOfRange(a,lo,mid));
-        assert SortAlgo.isSorted(Arrays.copyOfRange(a, mid+1, hi));
+        assert isSorted(Arrays.copyOfRange(a,lo,mid));
+        assert isSorted(Arrays.copyOfRange(a, mid+1, hi));
 
         //System.out.println("\t\t++ [Start] Merge - Iter " +iteration+" \n\t\t"+ getMergeSortPrintString(true, a, aux, lo, mid, hi, iteration));
         
@@ -214,16 +214,16 @@ public final class MergeSort extends SortAlgo
         {
             if      (i > mid)              a[k] = aux[j++];             //if reached end of partition A: add B to tail.
             else if (j > hi)               a[k] = aux[i++];             //else if reached end of partition B: add A to tail.
-            else if (SortAlgo.less(aux,j, i)) a[k] = aux[j++];    //else if element in partition B less one in A: add B to tail.
+            else if (less(aux,j, i)) a[k] = aux[j++];    //else if element in partition B less one in A: add B to tail.
             else                           a[k] = aux[i++];             //else: (should mean element in A is less than B) add A to tail.
         }
 
         String str = "   ++Merge #"+mergeCalls+" ||  "+ getMergeSortPrintString(true, a, aux, lo, mid, hi, printTrace); 
-        if(printTrace) str+=" = {"+SortAlgo.getArrayString(Arrays.copyOfRange(a,lo,hi+1)) + "}";
+        if(printTrace) str+=" = {"+getArrayString(Arrays.copyOfRange(a,lo,hi+1)) + "}";
         
         System.out.println(str);    
         // postcondition: a[lo .. hi] is sorted
-        assert SortAlgo.isSorted(Arrays.copyOfRange(a,lo,hi));
+        assert isSorted(Arrays.copyOfRange(a,lo,hi));
     }
 
     /**
@@ -243,17 +243,18 @@ public final class MergeSort extends SortAlgo
         if(partitionPrint)
         {
             String str = "A["+lo+"->"+mid +"]:{"; 
-            if(lo != mid) str += SortAlgo.getArrayString(Arrays.copyOfRange(a,lo,mid+1))+"}"; //idk why, but had to do mid+1 for it to print correctly... 
+            if(lo != mid) str += getArrayString(Arrays.copyOfRange(a,lo,mid+1))+"}"; //idk why, but had to do mid+1 for it to print correctly... 
             else str += a[mid].toString() + " ]";
 
             str+="   B["+(mid+1)+"->"+hi +"]:{" ;
 
             if((mid+1) == hi) str += a[hi].toString() + " }";
-            else str += SortAlgo.getArrayString(Arrays.copyOfRange(a,mid+1,hi+1))+"}";
+            else str += getArrayString(Arrays.copyOfRange(a,mid+1,hi+1))+"}";
 
            return str;
         }
         else
-        return ("a["+lo+"->"+hi +"] :{" + SortAlgo.getArrayString(Arrays.copyOfRange(a,lo,hi+1))+"}");
+        return ("a["+lo+"->"+hi +"] :{" + getArrayString(Arrays.copyOfRange(a,lo,hi+1))+"}");
     }
+
 }
