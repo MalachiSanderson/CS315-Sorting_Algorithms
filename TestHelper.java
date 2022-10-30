@@ -43,6 +43,7 @@ public class TestHelper
      * @param size - size of the array
      * @return random array
      * @author https://github.com/richss/SortingAlgorithms/blob/master/src/SortHelper.java
+     * @since 10-19-22
      */
     public static Integer[] getRandomArray(int size) 
     {
@@ -76,6 +77,56 @@ public class TestHelper
         return out;
     }
     
+    /**
+     * Enum that defines types of arrays we have tests for...
+     * <p>
+     * 1. {@link #getRandomArray(int) Random}
+     * <p>
+     * 2. {@link #getAscendingArray(int) Ascending}
+     * <p>
+     * 3. {@link #getDescendingArray(int) Descending}
+     * <p>
+     * @author Malachi Sanderson
+     * @since 10-29-22
+     * 
+     */
+    public static enum ArraySortTypesEnum
+    {
+        Random,
+        Ascending,
+        Descending
+    }
+
+    /**
+     * Works by utilizing {@link ArraySortTypesEnum}
+     * @param preSortType type of presorting done on the array.
+     * @param size size of the array you wish to create
+     * @return an Integer[] array built to those specifications of the parameters. (Returns null on error.)
+     * @author Malachi Sanderson
+     * @since 10-29-22
+     */
+    public static Integer[] chooseArrayPresortedBy(ArraySortTypesEnum preSortType, int size)
+    {
+        switch (preSortType) 
+        {
+            case Random:
+                return getRandomArray(size);
+            case Ascending:
+                return getAscendingArray(size);
+            case Descending:
+                return getDescendingArray(size);
+            default:
+                try 
+                {
+                    throw new Exception("\n\n\n\n\t\t[USER ERROR: CANNOT IDENTIFY "+preSortType.name()+" AS AN ALGORITHM TO TEST]");
+                } 
+                catch (Exception e) 
+                {
+                    e.printStackTrace();
+                }
+        }
+        return null;
+    }
 
 
 

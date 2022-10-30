@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 import java.util.Scanner;
 import SortingAlgos.*;
@@ -18,15 +19,242 @@ public class TestClient extends TestHelper
      */
     public static void main(String[] args) 
     {
-        //sortTester(algorithmTypEnum.QuickSort,true);
+        //sortTester(algorithmTypEnum.SelectionSort, 20, ArraySortTypesEnum.Random, 36000);
         //sortTester(algorithmTypEnum.QuickSort,false, new Integer[] {11, 38, 42, 8, 6, 5});
+        rapidSortTester(algorithmTypEnum.MergeSort, 2);
+
+
+
+
         if(args.length>0) commandLineInputHandler(args);
-        else commandLineInterface();
+        //else commandLineInterface();
         System.out.println("\n\n--------------------------------------------------------------");
-        System.out.println("\t\t\t\tGOODBYE!");
-        System.out.println("--------------------------------------------------------------\n\n");
+        //System.out.println("\t\t\t\tGOODBYE!");
+        //System.out.println("--------------------------------------------------------------\n\n");
     }
 
+
+    /**
+     * Basic function that tests and prints results of a sorting algorithm. 
+     * By default test runs on a randomized INTEGER array of size {@link #defaultRandomArrSize}.
+     * @param algo what type of sorting algo do you want to use?
+     * @param printAdvanced want to have maximally detailed print?
+     * @author Malachi Sanderson
+     * @since 10-19-22
+     */
+    private static void sortTester(TestHelper.algorithmTypEnum algo, boolean printAdvanced)
+    {
+        System.out.println("\n\n-----------------------------\n\n "+algo.name()+" TEST\n\n-----------------------------");
+        Comparable<Integer>[] arr = TestHelper.chooseArrayPresortedBy(ArraySortTypesEnum.Random, defaultRandomArrSize);
+        System.out.println("PRINTING RANDOM ARR: "+SortAlgo.getArrayString(arr)+"\n-----------------------------");
+        chooseAlgoToTest(algo,arr,printAdvanced);
+        System.out.println("\n-----------------------------\nPRINTING SORTED ARR: "+SortAlgo.getArrayString(arr));
+        System.out.println("***********ALGORITHM WORKED? "+SortAlgo.isSorted(arr)+"!!!***********\n");
+    }
+
+    /**
+     * Same as {@link #sortTester(algorithmTypEnum, boolean)} except it takes an inputted integer array and tests that instead of
+     * a randomized array.
+     * @param algo
+     * @param printAdvanced
+     * @param inputArr
+     * @author Malachi Sanderson
+     * @since 10-19-22
+     */
+    private static void sortTester(TestHelper.algorithmTypEnum algo, boolean printAdvanced, Integer[] inputArr)
+    {
+        System.out.println("\n\n-----------------------------\n\n "+algo.name()+" TEST\n\n-----------------------------");
+        Comparable<Integer>[] arr = inputArr;
+        System.out.println("PRINTING ARR: "+SortAlgo.getArrayString(arr)+"\n-----------------------------");
+        chooseAlgoToTest(algo,arr,printAdvanced);
+        System.out.println("\n-----------------------------\nPRINTING SORTED ARR: "+SortAlgo.getArrayString(arr));
+        System.out.println("***********ALGORITHM WORKED? "+SortAlgo.isSorted(arr)+"!!!***********\n");
+    }
+
+
+    //[TODO]
+    /**
+     * Same as {@link #sortTester(algorithmTypEnum, boolean)} except no advanced prints but instead
+     * just calls the timed version of the sort on a array sorted according to preSortType 
+     * (selected according to {@link TestHelper#chooseArrayPresortedBy(ArraySortTypesEnum, int)})
+     * @param algo
+     * @param digits
+     * @param preSortType selected option from {@link ArraySortTypesEnum}
+     * @param size desired size of generated array
+     * @author Malachi Sanderson
+     * @since 10-29-22
+     */
+    private static void sortTester(algorithmTypEnum algo, int digits, ArraySortTypesEnum preSortType, int size)
+    {
+        System.out.println("\n\n-----------------------------\n\n "+algo.name()+" TEST\n\n-----------------------------");
+        Comparable<Integer>[] arr = TestHelper.chooseArrayPresortedBy(preSortType, size);
+        //System.out.println("PRINTING "+preSortType.name()+" ARR: "+SortAlgo.getArrayString(arr)+"\n-----------------------------");
+        chooseAlgoToTest(algo,arr,digits);
+        //System.out.println("\n-----------------------------\nPRINTING SORTED ARR: "+SortAlgo.getArrayString(arr));
+        System.out.println("***********ALGORITHM WORKED? "+SortAlgo.isSorted(arr)+"!!!***********\n");
+    }
+    //[TODO]
+    /**
+     * Same as {@link #sortTester(algorithmTypEnum, int, ArraySortTypesEnum, int)} except user inputs a custom
+     * Integer[] array.
+     * @param algo
+     * @param digits
+     * @param inputArr
+     * @author Malachi Sanderson
+     * @since 10-29-22
+     */
+    private static void sortTester(algorithmTypEnum algo, int digits, Integer[] inputArr )
+    {
+        System.out.println("\n\n-----------------------------\n\n "+algo.name()+" TEST\n\n-----------------------------");
+        Comparable<Integer>[] arr = inputArr;
+       // System.out.println("PRINTING ARR: "+SortAlgo.getArrayString(arr)+"\n-----------------------------");
+        chooseAlgoToTest(algo,arr,digits);
+        //System.out.println("\n-----------------------------\nPRINTING SORTED ARR: "+SortAlgo.getArrayString(arr));
+        System.out.println("***********ALGORITHM WORKED? "+SortAlgo.isSorted(arr)+"!!!***********\n");
+    }
+
+
+    private static void rapidSortTester(algorithmTypEnum algo, int repeatTimes)
+    {
+        System.out.println(" "+algo.name()+" ");
+        int startSize  = 30000;
+        int finalSize = 58460;
+        
+        for(int i = 0; i< 3; i++)
+        {
+            int currSize = startSize;
+            ArraySortTypesEnum psas = null;
+            switch(i)
+            {
+                case 0 : psas = ArraySortTypesEnum.Random; break;
+                case 1 : psas = ArraySortTypesEnum.Ascending; break;
+                case 2 : psas = ArraySortTypesEnum.Descending; break;
+                default: break;
+            }
+            String resultsStr = null;
+            resultsStr += "\n"+algo.name()+" " + psas.name() +": \n";
+            while(currSize <= finalSize)
+            {
+                for(int j = 0; j < repeatTimes; j++)
+                {
+                    Comparable<Integer>[] arr = TestHelper.chooseArrayPresortedBy(psas,currSize);
+                    resultsStr += "\tSIZE: "+currSize +" "+chooseAlgoToTest(algo,arr,0)+"\n";
+                }
+                currSize = (int) (currSize *1.1);
+                resultsStr +="\n";
+            }
+            System.out.println(resultsStr);
+        }
+        System.out.println("***********Test Batch Done "+"!!!***********");
+    }
+
+
+    /**
+     * Runs specified algorithm (identfied by relation to {@link algorithmTypEnum}) on a passed array.
+     * <p>
+     * If passed algo is not one defined in {@link algorithmTypEnum} throws an exception.
+     * @param algo pass enum to a specific algorithm 
+     * @param arr array you wish to sort using specified algo.
+     * @param printTrace do you want maximally detailed print?
+     * @author Malachi Sanderson
+     */
+    public static void chooseAlgoToTest(algorithmTypEnum algo, Comparable<Integer>[] arr, boolean printTrace) 
+    {
+        switch (algo) 
+        {
+            case BubbleSort:
+                BubbleSort.sort(arr,printTrace);
+                break;
+            case SelectionSort:
+                SelectionSort.sort(arr,printTrace);
+                break;
+            case InsertionSort:
+                InsertionSort.sort(arr,printTrace);
+                break;
+                
+            case MergeSort:
+                MergeSort.sort(arr,printTrace);
+                break;
+                
+            case QuickSort:
+                QuickSort.sort(arr,printTrace);
+                break;
+            
+        
+            default:
+                try 
+                {
+                    throw new Exception("\n\n\n\n\t\t[ERROR: CANNOT IDENTIFY "+algo.name()+" AS AN ALGORITHM TO TEST]");
+                } 
+                catch (Exception e) 
+                {
+                    e.printStackTrace();
+                }
+        }
+    }
+    /**[TODO]
+     * Same as {@link #chooseAlgoToTest(algorithmTypEnum, Comparable[], Boolean)} except 
+     * just calls the timed version of the sort on an array. 
+     * <p>
+     * To be used in combination with something like {@link #sortTester(algorithmTypEnum, int, ArraySortTypesEnum, int)}
+     * @param algo
+     * @param arr
+     * @param digits number of digits out to print seconds, milis and nanos
+     * @author Malachi Sanderson
+     * @since 10-29-22
+     */
+    public static String chooseAlgoToTest(algorithmTypEnum algo, Comparable<Integer>[] arr, int digits) 
+    {
+        switch (algo) 
+        {
+            case BubbleSort:
+                //[TODO] UNIMPLEMENTED AS OF 10-29-22
+                System.out.println("\n\n\t[ERROR!!! "+algo.name()+" HAS NO IMPLEMENTED TIMED VERSION");
+                //BubbleSort.sort(arr,printTrace);
+                return null;
+
+            case SelectionSort:
+                return SelectionSort.sort(arr,digits);
+
+            case InsertionSort:
+                //[TODO] UNIMPLEMENTED AS OF 10-29-22
+                System.out.println("\n\n\t[ERROR!!! "+algo.name()+" HAS NO IMPLEMENTED TIMED VERSION");
+                //InsertionSort.sort(arr,printTrace);
+                return null;
+                
+            case MergeSort:
+                return MergeSort.sort(arr,digits);
+                
+            case QuickSort:
+                //[TODO] UNIMPLEMENTED AS OF 10-29-22
+                System.out.println("\n\n\t[ERROR!!! "+algo.name()+" HAS NO IMPLEMENTED TIMED VERSION");
+                //QuickSort.sort(arr,printTrace);
+                return null;
+            
+        
+            default:
+                try 
+                {
+                    throw new Exception("\n\n\n\n\t\t[ERROR: CANNOT IDENTIFY "+algo.name()+"AS AN ALGORITHM TO TEST]");
+                } 
+                catch (Exception e) 
+                {
+                    e.printStackTrace();
+                }
+        }
+        try 
+        {
+            throw new Exception("\n\n\n\n\t\t[ERROR: MAJOR ISSUE IN TRYING TO RUN ALGO]\n\n\n");
+        } 
+        catch (Exception e) 
+        {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+
+    
     /**
      * Process to handle interactive command line input!
      * 
@@ -36,7 +264,8 @@ public class TestClient extends TestHelper
      * <p>
      * <i> For good examples of how to do stuff like this look at: https://www.geeksforgeeks.org/ways-to-read-input-from-console-in-java/</i>
      * @param args
-     * @author Malachi Sanderson 
+     * @author Malachi Sanderson
+     * @since 10-19-22
      */
     private static void commandLineInterface()
     {
@@ -151,6 +380,7 @@ public class TestClient extends TestHelper
      * 
      * @param args
      * @author Malachi Sanderson
+     * @since 10-19-22
      */
     private static void commandLineInputHandler(String[] args)
     {
@@ -227,88 +457,6 @@ public class TestClient extends TestHelper
         }
         else sortTester(alg,printTrace);
     }
-
-    /**
-     * Basic function that tests and prints results of a sorting algorithm. 
-     * By default test runs on a randomized INTEGER array of size {@link #defaultRandomArrSize}.
-     * @param algo what type of sorting algo do you want to use?
-     * @param printAdvanced want to have maximally detailed print?
-     * @author Malachi Sanderson
-     */
-    private static void sortTester(TestHelper.algorithmTypEnum algo, boolean printAdvanced)
-    {
-        System.out.println("\n\n-----------------------------\n\n "+algo.name()+" TEST\n\n-----------------------------");
-        Comparable<Integer>[] arr = TestHelper.getRandomArray(defaultRandomArrSize);
-        System.out.println("PRINTING NORMAL ARR: "+SortAlgo.getArrayString(arr)+"\n-----------------------------");
-        chooseAlgoToTest(algo,arr,printAdvanced);
-        System.out.println("\n-----------------------------\nPRINTING SORTED ARR: "+SortAlgo.getArrayString(arr));
-        System.out.println("***********ALGORITHM WORKED? "+SortAlgo.isSorted(arr)+"!!!***********\n");
-    }
-
-    /**
-     * Same as {@link #sortTester(algorithmTypEnum, boolean)} except it takes an inputted integer array and tests that instead of
-     * a randomized array.
-     * @param algo
-     * @param printAdvanced
-     * @param inputArr
-     * @author Malachi Sanderson
-     */
-    private static void sortTester(TestHelper.algorithmTypEnum algo, boolean printAdvanced, Integer[] inputArr)
-    {
-        System.out.println("\n\n-----------------------------\n\n "+algo.name()+" TEST\n\n-----------------------------");
-        Comparable<Integer>[] arr = inputArr;
-        System.out.println("PRINTING NORMAL ARR: "+SortAlgo.getArrayString(arr)+"\n-----------------------------");
-        chooseAlgoToTest(algo,arr,printAdvanced);
-        System.out.println("\n-----------------------------\nPRINTING SORTED ARR: "+SortAlgo.getArrayString(arr));
-        System.out.println("***********ALGORITHM WORKED? "+SortAlgo.isSorted(arr)+"!!!***********\n");
-    }
-
-    /**
-     * Runs specified algorithm (identfied by relation to {@link algorithmTypEnum}) on a passed array.
-     * <p>
-     * If passed algo is not one defined in {@link algorithmTypEnum} throws an exception.
-     * @param algo pass enum to a specific algorithm 
-     * @param arr array you wish to sort using specified algo.
-     * @param printTrace do you want maximally detailed print?
-     * @author Malachi Sanderson
-     */
-    public static void chooseAlgoToTest(algorithmTypEnum algo, Comparable<Integer>[] arr, boolean printTrace) 
-    {
-        switch (algo) 
-        {
-            case BubbleSort:
-                BubbleSort.sort(arr,printTrace);
-                break;
-            case SelectionSort:
-                SelectionSort.sort(arr,printTrace);
-                break;
-            case InsertionSort:
-                InsertionSort.sort(arr,printTrace);
-                break;
-                
-            case MergeSort:
-                MergeSort.sort(arr,printTrace);
-                break;
-                
-            case QuickSort:
-                QuickSort.sort(arr,printTrace);
-                break;
-            
-        
-            default:
-                try 
-                {
-                    throw new Exception("\n\n\n\n\t\t[ERROR: CANNOT IDENTIFY "+algo.name()+"AS AN ALGORITHM TO TEST]");
-                } 
-                catch (Exception e) 
-                {
-                    e.printStackTrace();
-                }
-        }
-    }
-    
-
-
 
 
 

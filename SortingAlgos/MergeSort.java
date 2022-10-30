@@ -1,5 +1,8 @@
 package SortingAlgos;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 
 /**
@@ -54,6 +57,31 @@ public final class MergeSort extends SortAlgo
         splitCalls = 0;
         failedSplitCalls = 0;
         mergeCalls = 0;
+    }
+    /**
+     * {@link #sort(Comparable[])} but prints timing.
+     * @param a
+     * @param digits
+     * @return string of the time taken
+     * @author Malachi Sanderson
+     * @since 10-29-22
+     */
+    public static String sort(Comparable[] a, int digits)
+    {
+        Instant starts = null;
+        starts = Instant.now();
+
+        Comparable[] aux = new Comparable[a.length];
+        splitArray(a, aux, 0, a.length-1);
+
+        Instant ends = Instant.now();
+        long milis = Duration.between(starts, ends).toMillis() % 1000;
+        long seconds = Duration.between(starts, ends).minus(milis, ChronoUnit.MILLIS).getSeconds();
+        long nanos = Duration.between(starts, ends).minus(seconds, ChronoUnit.SECONDS).minus(milis, ChronoUnit.MILLIS).getNano();
+
+        //System.out.println("\tTotal SORTING TIME: "+Duration.between(starts, ends) +"\n\tSeconds: "+ seconds+ "\n\tMiliSecs: "+ milis+"\n\tNanosecs: "+nanos );
+        //Duration.between(starts, ends).toNanos()
+        return "Total SORTING TIME: "+Duration.between(starts, ends) +"    Seconds: "+ seconds+ "    MiliSecs: "+ milis+"    Nanosecs: "+nanos;
     }
 
 

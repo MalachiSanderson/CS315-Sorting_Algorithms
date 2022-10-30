@@ -1,4 +1,10 @@
 package SortingAlgos;
+
+import java.time.Duration;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
+
 /**[TODO] explain what it does and have list with links to all methods and for each method put author.
  * @author Malachi Sanderson.
  * @since 10-19-22
@@ -75,4 +81,39 @@ public final class SelectionSort extends SortAlgo
         }
         if(printTrace) System.out.println("Final I = " + i + "...............");
     }
+    /**
+     * {@link #sort(Comparable[])} but prints timing.
+     * @param a
+     * @param starts input Instant.now() or just input null and it should be fine.
+     * @return string of the time taken
+     * @author Malachi Sanderson
+     * @since 10-29-22
+     */
+    public static String sort(Comparable[] a, int digits)
+    {
+        Instant starts = null;
+        starts = Instant.now();
+        //Thread.sleep(10);
+        
+        //sort a[] into increasing order...
+        int N = a.length;
+        for(int i = 0; i < N; i++)
+        {
+            ///exchange a[i] with smallest entry in a[i+1...N]
+            int min = i;
+            for(int j = i+1; j < N; j++)
+                if(SortAlgo.less(a,j,min)) min = j;
+            SortAlgo.swap(a, i, min);
+        }
+        Instant ends = Instant.now();
+        long milis = Duration.between(starts, ends).toMillis() % 1000;
+        long seconds = Duration.between(starts, ends).minus(milis, ChronoUnit.MILLIS).getSeconds();
+        long nanos = Duration.between(starts, ends).minus(seconds, ChronoUnit.SECONDS).minus(milis, ChronoUnit.MILLIS).getNano();
+
+        //System.out.println("\tTotal SORTING TIME: "+Duration.between(starts, ends) +"\n\tSeconds: "+ seconds+ "\n\tMiliSecs: "+ milis+"\n\tNanosecs: "+nanos );
+        return "Total SORTING TIME: "+Duration.between(starts, ends) +"    Seconds: "+ seconds+ "    MiliSecs: "+ milis+"    Nanosecs: "+nanos;
+        //Duration.between(starts, ends).toNanos()
+
+    }
+        
 }
