@@ -43,7 +43,6 @@ public class TestHelper
      * @param size - size of the array
      * @return random array
      * @author https://github.com/richss/SortingAlgorithms/blob/master/src/SortHelper.java
-     * @since 10-19-22
      */
     public static Integer[] getRandomArray(int size) 
     {
@@ -78,7 +77,7 @@ public class TestHelper
     }
     
     /**
-     * Enum that defines types of arrays we have tests for...
+     * Enum that defines all types of PSAS's for arrays in performance experimentation...
      * <p>
      * 1. {@link #getRandomArray(int) Random}
      * <p>
@@ -88,7 +87,7 @@ public class TestHelper
      * <p>
      * @author Malachi Sanderson
      * @since 10-29-22
-     * 
+     * @version M2-4 Programming Assignment Deliverable
      */
     public static enum ArraySortTypesEnum
     {
@@ -104,6 +103,7 @@ public class TestHelper
      * @return an Integer[] array built to those specifications of the parameters. (Returns null on error.)
      * @author Malachi Sanderson
      * @since 10-29-22
+     * @version M2-4 Programming Assignment Deliverable
      */
     public static Integer[] chooseArrayPresortedBy(ArraySortTypesEnum preSortType, int size)
     {
@@ -129,9 +129,7 @@ public class TestHelper
     }
 
 
-
-
-    //---------------------------------------------------------------------
+    //#region STUFF FOR COMMAND LINE INTERFACING
     
     /**
      * Enum that defines types of algorithms I have implemented...
@@ -171,6 +169,13 @@ public class TestHelper
      */
     private static HashMap<String,algorithmTypEnum> sortOptionsInputPairs;
     
+    //#region Attributes: Acceptable command line inputs for each algorithm 
+    protected static final String[] bubSort_Inputs = {"1", "b","bubble sort","bubble","bub","bs"};
+    protected static final String[] selectSort_Inputs = {"2","s", "selection sort", "selection", "sel", "ss", "select"};
+    protected static final String[] insertSort_Inputs = {"3","i", "insertion sort", "insertion", "insert", "in", "ins", "is"};
+    protected static final String[] mergeSort_Inputs = {"4", "m", "merge sort", "merge", "ms", "mer" };
+    protected static final String[] quickSort_Inputs = {"5", "q", "quick sort", "qs", "quick" };
+    //#endregion
 
     /**
      * Searches {@link #sortOptionsInputPairs predefined input dictionary} 
@@ -235,13 +240,7 @@ public class TestHelper
         return tmpMap;
     }
 
-    protected static String[] bubSort_Inputs = {"1", "b","bubble sort","bubble","bub","bs"};
-    protected static String[] selectSort_Inputs = {"2","s", "selection sort", "selection", "sel", "ss", "select"};
-    protected static String[] insertSort_Inputs = {"3","i", "insertion sort", "insertion", "insert", "in", "ins", "is"};
-    protected static String[] mergeSort_Inputs = {"4", "m", "merge sort", "merge", "ms", "mer" };
-    protected static String[] quickSort_Inputs = {"5", "q", "quick sort", "qs", "quick" };
-
-
+    //#endregion
 
 
 

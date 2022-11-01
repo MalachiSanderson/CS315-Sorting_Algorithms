@@ -88,6 +88,7 @@ public final class SelectionSort extends SortAlgo
      * @return string of the time taken
      * @author Malachi Sanderson
      * @since 10-29-22
+     * @version M2-4 Programming Assignment Deliverable 
      */
     public static String sort(Comparable[] a, int digits)
     {

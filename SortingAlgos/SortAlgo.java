@@ -9,9 +9,9 @@ import java.time.temporal.ChronoUnit;
  * <p>
  * <b> Has Static Helper Methods...</b>
  * <p>
- * {@link #swap(Comparable[], int, int)}
+ * {@link #swap(Comparable[], int, int)} - has {@link #swap_TEST() unit test} made for "version: M2-4 Programming Assignment Deliverable"} 
  * <p>
- * {@link #less(Comparable[], int, int)}
+ * {@link #less(Comparable[], int, int)} - has {@link #less_TEST() unit test} made for "version: M2-4 Programming Assignment Deliverable"}
  * <p>
  * {@link #less(Comparable, Comparable)}
  * <p>
@@ -89,16 +89,14 @@ public abstract class SortAlgo
      * @param a array of elements of comparable type
      * @return string representation of array (with spaces appended to each element.)
      * @author Malachi Sanderson (inspired by other examples tho)
+     * @since 10-19-22
      */
     public static String getArrayString(Comparable[] a)
     {
         String arrStr = "";
         if(a.length <= 0) arrStr+="null";
         for(int i = 0;i < a.length; i++) 
-        {
             arrStr += (a[i].toString() + " ");
-            
-        }
         return arrStr;
     }
 
@@ -133,6 +131,7 @@ public abstract class SortAlgo
      * @param index
      * @return a string formatted as I describe above.
      * @author Malachi Sanderson
+     * @since 10-19-22
      */
     public static String getItemStr(Comparable[] a, int index)
     {
@@ -158,6 +157,7 @@ public abstract class SortAlgo
      * @param hi
      * @return
      * @author Malachi Sanderson
+     * @since 10-19-22
      */
     public static String arrRangePrintStr(Comparable[] a, int lo, int hi)
     {
@@ -168,12 +168,24 @@ public abstract class SortAlgo
     }
 
     /**
-     * Utility method for getting a printout of the execution time between two instants (start and end).
+     * Utility method for getting a formatted string (for printout) of the execution time between two instants (start and end).
+     * <p>
+     * This is essentially just a easy print function using verfied built-in java methods and testing would be redundant.
+     * <p>
+     * Example:
+     * <p>
+     * <code>
+     * System.out.print(Instant a) = PT;
+     * <p>
+     * arrRangePrintStr(a, 0, 2);</code>
+     * <p>
+     * returns:<code>"[0->2]:{A B C }"</code>
      * @param start 
      * @param end
      * @return string of the time passed showing total time, seconds, miliseconds, and nanoseconds
      * @author Malachi Sanderson
      * @since 10-30-22
+     * @version M2-4 Programming Assignment Deliverable 
      */
     public static String getExecutionTimeString(Instant start, Instant end)
     {
@@ -184,10 +196,6 @@ public abstract class SortAlgo
         String durStr = Duration.between(start, end).toString().replaceAll("[^\\d.]", ""); //removes all non-numeric characters from str.
         return "\tTIME: "+durStr +"\tS: "+ seconds+ "   Ms: "+ milis+"   Ns: "+nanos;
     }
-
-
-
-
 
     
     // private static <S extends SortAlgorithm> void sortTester(S c)
@@ -200,4 +208,38 @@ public abstract class SortAlgo
     //     System.out.println("PRINTING SORTED ARR: ");
     //     System.out.println(TestInterface.toArrayToString((Integer[])arr.clone()));
     // }
+
+    //#region UNIT TESTS FOR HELPER FUNCTIONS 
+
+    /**
+     * Simple test function to verify proper function of {@link #less(Comparable[], int, int)}
+     * @return true if function works as intended
+     * @author Malachi Sanderson
+     * @since 11-1-22
+     * @version M2-4 Programming Assignment Deliverable 
+     */
+    private static boolean less_TEST()
+    {
+        Comparable[] testArr = {1,2,3,4};
+        if(less(testArr,3, 0)) return false; //if arr[3] (4) < arr[0] (1) test failed.
+        else return true;
+    }
+    /**
+     * Simple test function to verify proper function of {@link #swap(Comparable[], int, int)}
+     * @return true if function works as intended
+     * @author Malachi Sanderson
+     * @since 11-1-22
+     * @version M2-4 Programming Assignment Deliverable 
+     */
+    private static boolean swap_TEST()
+    {
+        Comparable[] testArr = {1,2,3,4};
+        Comparable[] expectedArr = {4,2,3,1};
+        swap(testArr, 0, 3); //new arr should mirror expectedArr
+        for(int i = 0; i < testArr.length; i++) //go through each index of both arr and if any dont match, fail test. 
+            if(!testArr[i].equals(expectedArr[i])) return false;
+        return true;
+    }
+
+    //#endregion
 }

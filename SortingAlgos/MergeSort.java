@@ -12,7 +12,9 @@ import java.util.Arrays;
 */
 public final class MergeSort extends SortAlgo
 {
-    //these variables are used only for printing and have no impact on the algorithm...
+    /**
+     * These variables are used only for printing and have no impact on the algorithm...
+     */
     //#region PRINT VARIABLES
     private static int splitCalls = 0;
     private static int failedSplitCalls = 0;
@@ -32,6 +34,8 @@ public final class MergeSort extends SortAlgo
     * <p>
     * 
     * @param a array of comparable items you desire to sort.
+    * @author Malachi Sanderson
+    * @since 10-19-22
     */
     public static void sort(Comparable[] a)
     {
@@ -40,11 +44,12 @@ public final class MergeSort extends SortAlgo
     }
 
     /**
-    * {@link #sort(Comparable[])} but with in-depth printing for tracing process.
-    * @param a
-    * @param printTrace
-    * @author Malachi Sanderson
-    */
+     * {@link #sort(Comparable[])} but with in-depth printing for tracing process. 
+     * @param a 
+     * @param printTrace
+     * @author Malachi Sanderson
+     * @since 10-19-22
+     */
     public static void sort(Comparable[] a, boolean printTrace)
     {
         splitCalls = 0;
@@ -65,11 +70,11 @@ public final class MergeSort extends SortAlgo
      * @return string of the time taken
      * @author Malachi Sanderson
      * @since 10-29-22
+     * @version M2-4 Programming Assignment Deliverable 
      */
     public static String sort(Comparable[] a, int digits)
     {
-        Instant starts = null;
-        starts = Instant.now();
+        Instant starts = Instant.now();
 
         Comparable[] aux = new Comparable[a.length];
         splitArray(a, aux, 0, a.length-1);
@@ -112,6 +117,7 @@ public final class MergeSort extends SortAlgo
      * @param hi
      * @param iterations
      * @author Malachi Sanderson
+     * @since 10-19-22
      */
     private static boolean splitArray(Comparable[] a, Comparable[] aux, int lo, int hi, boolean printTrace) 
     {
@@ -216,6 +222,7 @@ public final class MergeSort extends SortAlgo
      * @param hi
      * @param iterations
      * @author Malachi Sanderson
+     * @since 10-19-22
      */
     private static void merge(Comparable[] a, Comparable[] aux, int lo, int mid, int hi, boolean printTrace) 
     {
@@ -260,6 +267,7 @@ public final class MergeSort extends SortAlgo
      * @param printTrace
      * @return 
      * @author Malachi Sanderson
+     * @since 10-19-22
      */
     private static String getMergeSortPrintString(boolean partitionPrint,Comparable[] a, Comparable[] aux, int lo, int mid, int hi, boolean printTrace)
     {

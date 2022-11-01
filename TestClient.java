@@ -11,7 +11,7 @@ import SortingAlgos.*;
 public class TestClient extends TestHelper
 {
     
-    private static final int defaultRandomArrSize = 5;
+    private static final int DEFAULT_TEST_ARRAY_SIZE = 5;
     /**
      * 
      * @param args
@@ -22,18 +22,18 @@ public class TestClient extends TestHelper
         //sortTester(algorithmTypEnum.SelectionSort, 20, ArraySortTypesEnum.Random, 36000);
         //sortTester(algorithmTypEnum.QuickSort,false, new Integer[] {11, 38, 42, 8, 6, 5});
         rapidSortTester(algorithmTypEnum.SelectionSort, 30000, 8, 1.1f,2);
-
+        rapidSortTester(algorithmTypEnum.MergeSort, 30000, 8, 1.1f,2);
         if(args.length>0) commandLineInputHandler(args);
         //else commandLineInterface();
         System.out.println("\n\n--------------------------------------------------------------");
-        //System.out.println("\t\t\t\tGOODBYE!");
-        //System.out.println("--------------------------------------------------------------\n\n");
+        System.out.println("\t\t\t\tGOODBYE!");
+        System.out.println("--------------------------------------------------------------\n\n");
     }
 
 
     /**
      * Basic function that tests and prints results of a sorting algorithm. 
-     * By default test runs on a randomized INTEGER array of size {@link #defaultRandomArrSize}.
+     * By default test runs on a randomized INTEGER array of size {@link #DEFAULT_TEST_ARRAY_SIZE}.
      * @param algo what type of sorting algo do you want to use?
      * @param printAdvanced want to have maximally detailed print?
      * @author Malachi Sanderson
@@ -42,7 +42,7 @@ public class TestClient extends TestHelper
     private static void sortTester(TestHelper.algorithmTypEnum algo, boolean printAdvanced)
     {
         System.out.println("\n\n-----------------------------\n\n "+algo.name()+" TEST\n\n-----------------------------");
-        Comparable<Integer>[] arr = TestHelper.chooseArrayPresortedBy(ArraySortTypesEnum.Random, defaultRandomArrSize);
+        Comparable<Integer>[] arr = TestHelper.chooseArrayPresortedBy(ArraySortTypesEnum.Random, DEFAULT_TEST_ARRAY_SIZE);
         System.out.println("PRINTING RANDOM ARR: "+SortAlgo.getArrayString(arr)+"\n-----------------------------");
         chooseAlgoToTest(algo,arr,printAdvanced);
         System.out.println("\n-----------------------------\nPRINTING SORTED ARR: "+SortAlgo.getArrayString(arr));
@@ -79,6 +79,7 @@ public class TestClient extends TestHelper
      * @param size desired size of generated array
      * @author Malachi Sanderson
      * @since 10-29-22
+     * @version M2-4 Programming Assignment Deliverable (non-essential)
      */
     private static void sortTester(algorithmTypEnum algo, int digits, ArraySortTypesEnum preSortType, int size)
     {
@@ -98,6 +99,7 @@ public class TestClient extends TestHelper
      * @param inputArr
      * @author Malachi Sanderson
      * @since 10-29-22
+     * @version M2-4 Programming Assignment Deliverable (non-essential)
      */
     private static void sortTester(algorithmTypEnum algo, int digits, Integer[] inputArr )
     {
@@ -114,6 +116,11 @@ public class TestClient extends TestHelper
      * testing different sizes and different pre-sorted array statuses (PSAS see {@link ArraySortTypesEnum}).
      * <p>
      * This method was built for my CS315 M2-4 project for data collection.
+     * <p>
+     * The actual functional use of this method is essentailly batch running a bunch of tests using 
+     * a specified sorting algorithm to view the printouts of execution time for each PSAS of each different size.
+     * <p>
+     * Basically, this just prints outputs of algorithms executions to command line so no real testing needs to be done here.
      * @param algo algorithm you wish to test. For working algorithms see {@link #chooseAlgoToTest(algorithmTypEnum, Comparable[], int)}
      * @param arrStartSize starting size for first array you wish to test.
      * @param numSizesTested how many different sizes do you want to test on each PSAS?
@@ -121,13 +128,14 @@ public class TestClient extends TestHelper
      * @param sizeTestRepeats how many times do you wish to repeat the test with each size for each PSAS? <p>Do this so you can see the variation in execution time when test parameters are kept the same (good if you wanna get averages).
      * @author Malachi Sanderson
      * @since 10/30/22
+     * @version M2-4 Programming Assignment Deliverable 
      */
     private static void rapidSortTester(algorithmTypEnum algo, int arrStartSize, int numSizesTested, float sizeMod, int sizeTestRepeats)
     {
         //System.out.println(" "+algo.name()+" ");
         for(int i = 0; i< 3; i++) // this loops through each array Pre-sorting type for the following tests.
         {
-            int currSize = arrStartSize;
+            int currSize = arrStartSize; //always start with first test size at arrStartSize
 
             ArraySortTypesEnum psas = null; //pre-sorted array status -- how is the generated array sorted initially?
             switch(i)
@@ -157,7 +165,7 @@ public class TestClient extends TestHelper
             }
             System.out.println(resultsStr);
         }
-        System.out.println("***********Test Batch Done "+"!!!***********");
+        System.out.println("***********Test Batch Completed For "+ algo.name()+"!!!***********");
     }
 
 
@@ -204,7 +212,7 @@ public class TestClient extends TestHelper
                 }
         }
     }
-    /**[TODO]
+    /**[TODO] IMPLEMENET FOR ALL OTHER ALGORITHMS (not essential for this assignment)
      * Same as {@link #chooseAlgoToTest(algorithmTypEnum, Comparable[], Boolean)} except 
      * just calls the timed version of the sort on an array. 
      * <p>
@@ -214,6 +222,7 @@ public class TestClient extends TestHelper
      * @param digits number of digits out to print seconds, milis and nanos
      * @author Malachi Sanderson
      * @since 10-29-22
+     * @version M2-4 Programming Assignment Deliverable 
      */
     public static String chooseAlgoToTest(algorithmTypEnum algo, Comparable<Integer>[] arr, int digits) 
     {
@@ -265,7 +274,7 @@ public class TestClient extends TestHelper
         return null;
     }
     
-
+    //#region STUFF FOR COMMAND LINE INTERFACING...
     
     /**
      * Process to handle interactive command line input!
@@ -323,7 +332,7 @@ public class TestClient extends TestHelper
                 break;
             }
         }
-        System.out.println("\t\tTo input an integer array to sort press ENTER, then type your first integer!\n\t\t\tBUT, if you want it to be randomized "+defaultRandomArrSize+" elements, type 'r' then press ENTER...");
+        System.out.println("\t\tTo input an integer array to sort press ENTER, then type your first integer!\n\t\t\tBUT, if you want it to be randomized "+DEFAULT_TEST_ARRAY_SIZE+" elements, type 'r' then press ENTER...");
         inputStr = in.nextLine();
         if(inputStr.contains("r") || inputStr.contains("R")) 
         {
@@ -491,4 +500,5 @@ public class TestClient extends TestHelper
         "x         |    [Quit  Program]   \n"
     ;
 
+    //#endregion
 }
