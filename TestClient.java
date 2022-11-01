@@ -21,10 +21,13 @@ public class TestClient extends TestHelper
     {
         //sortTester(algorithmTypEnum.SelectionSort, 20, ArraySortTypesEnum.Random, 36000);
         //sortTester(algorithmTypEnum.QuickSort,false, new Integer[] {11, 38, 42, 8, 6, 5});
+        System.out.println("\n\n--------------------------------------------------------------");
+        System.out.println("\t\tBEFORE RUNNING NORMAL SYSTEM STARTUP, EXECUTING PERFORMANCE TESTS...");
+        System.out.println("--------------------------------------------------------------\n\n");
         rapidSortTester(algorithmTypEnum.SelectionSort, 30000, 8, 1.1f,2);
         rapidSortTester(algorithmTypEnum.MergeSort, 30000, 8, 1.1f,2);
         if(args.length>0) commandLineInputHandler(args);
-        //else commandLineInterface();
+        else commandLineInterface();
         System.out.println("\n\n--------------------------------------------------------------");
         System.out.println("\t\t\t\tGOODBYE!");
         System.out.println("--------------------------------------------------------------\n\n");
